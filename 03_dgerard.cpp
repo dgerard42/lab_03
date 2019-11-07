@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/03 22:21:34 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/06 14:00:41 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/06 17:09:19 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 using namespace std;
 
 const int   MAX_NAMES = 20;
+const int   
 
 void        printNames(string names[], int numNames){
 
@@ -38,7 +39,7 @@ void        quickSort(string array[], int leftWall, int rightWall){
       int   temp;
       int   pivot = array[(left + right) / 2];
 
-      if (left == right)
+      if (left >= right)
         return;
       while (left <= right) {
             while (array[left] < pivot)
