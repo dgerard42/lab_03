@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/03 22:21:34 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/04 18:05:51 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/06 14:00:41 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,34 @@ void        printNames(string names[], int numNames){
     }
     cout << endl;
     return;
+}
+
+void        quickSort(string array[], int leftWall, int rightWall){
+
+      int   left = leftWall;
+      int   right = rightWall;
+      int   temp;
+      int   pivot = array[(left + right) / 2];
+
+      if (left == right)
+        return;
+      while (left <= right) {
+            while (array[left] < pivot)
+                  left++;
+            while (array[right] > pivot)
+                  right--;
+            if (left <= right) {
+                  temp = array[left];
+                  array[left] = array[right];
+                  array[right] = temp;
+                  left++;
+                  right--;
+            }
+      }
+      if (leftWall < right)
+            quickSort(array, leftWall, right);
+      if (left < rightWall)
+            quickSort(array, left, rightWall);
 }
 
 int         getNames(string names[]){
