@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/06 22:47:10 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/07 12:06:25 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/08 20:10:06 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,44 @@ int*        resizeArray(int array[], int size){
         newArray[index] = 0;
         index++;
     }
-    delete array;
-    *array = nullptr;
     return newArray;
 }
 
 void        printArray(int array[], int size){
 
     for (int index = 0; index < size; index++){
-        cout << array[index] << endl;
+        cout << array[index];
+        if (index + 1 != size)
+            cout << ", ";
     }
+    cout << endl;
     return;
 }
 
 int         main(){
 
-    int     array[3] = {1,2,3};
+    int     array00[3] = {1,2,3};
+    int     array01[1] = {0};
+    int     array02[12] = {-2, 4, 42, 69, 33498469, -66666, 0, 9, 8, 7, 6, -5};
+    int     *newArray;
     
-    printArray(array, 3);
-    resizeArray(array, 3);
-    printArray(array, 6);
+    printArray(array00, 3);
+    newArray = resizeArray(array00, 3);
+    printArray(newArray, 6);
+    delete newArray;
+    newArray = nullptr;
+    
+    printArray(array01, 1);
+    newArray = resizeArray(array01, 1);
+    printArray(newArray, 2);
+    delete newArray;
+    newArray = nullptr;
+
+    printArray(array02, 12);
+    newArray = resizeArray(array02, 12);
+    printArray(newArray, 24);
+    delete newArray;
+    newArray = nullptr;
+
+    return 0;
 }

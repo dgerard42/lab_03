@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/03 22:21:34 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/06 17:09:19 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/08 18:34:52 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int         main(){
     string  names[MAX_NAMES];
 
     numNames = getNames(names);
-    //sort();
+    sort();
     printNames(names, numNames);
     return 0;
 }
