@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/08 20:10:35 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/18 17:46:28 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/19 11:24:57 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <limits>
 
 using namespace std;
 
@@ -23,10 +24,6 @@ using namespace std;
     count matches
     create a vector of line numbers where the match occured
 */
-
-const string    INPUT_FILE = "janeEyre.txt";
-const int       LINES = 289;
-const string    OUTPUT_FILE = "output.txt";
 
 void            printInfo(vector<int> lineNumbers, string fileName, string searchRequest){
     
@@ -63,14 +60,11 @@ int             searchLine(string haystack, string needle){
 
 string          getUserInput(string userMessage){
     
-    string      userInput = "void";
+    string      userInput;
 
     cout << userMessage << endl;
-    while (userInput == "void" || cin.fail()){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin >> userInput;
-    }
+    cin >> userInput;
+
     return userInput; 
 }
 
@@ -78,18 +72,21 @@ int             main(){
     
     string      currentLine;
     ifstream    inputFile;
-    string      inputFile = getUserInput("enter the name of the file you wish to search");
+    string      fileRequest = getUserInput("enter the name of the file you wish to search");
     string      searchRequest = getUserInput("enter the word or phrase you wish to search for");
     vector<int> matchPageNums;
+    int         lineNumber = 1;
 
-    inputFile.open(INPUT_FILE);
+    if (fileRequest != "void")
+        inputFile.open(fileRequest);
     if (inputFile){
-        for (int line = 0; line < LINES; line++){
+        while(getline(inputFile, fileRequest)){
             getline(inputFile, currentLine);
-            if (searchStatus = searchLine(currentLine, searchRequest)
-                matchPageNums.push_back(line);
+            if (searchLine(currentLine, searchRequest))
+                matchPageNums.push_back(lineNumber);
+            lineNumber++;
         }
-        printInfo(matchPageNums, inputFile, searchRequest);
+        printInfo(matchPageNums, fileRequest, searchRequest);
         inputFile.close();
     } else {
         cout << "this file won't open" << endl;
