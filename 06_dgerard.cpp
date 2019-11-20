@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/08 20:10:35 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/19 11:24:57 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/19 15:59:38 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,19 @@
 
 using namespace std;
 
-/*
-    read file
-    search line
-    count matches
-    create a vector of line numbers where the match occured
-*/
-
 void            printInfo(vector<int> lineNumbers, string fileName, string searchRequest){
     
-    if ( lineNumbers[0] ){
+    if ( lineNumbers[0] != 0){
         cout << "your search for the phrase: \"" << searchRequest << "\" in the document \""
         << fileName << "\" was succesful. (✿ ◕ᗜ◕)━♫.*･｡ﾟ the string was found "
-        << lineNumbers.size() << " time(s) at the following line numbers:" << endl;
-        for (int index = 0; index < lineNumbers.size(); index++){
+        << (lineNumbers.size() - 1) << " time(s) at the following line numbers:" << endl;
+        for (int index = 1; index < lineNumbers.size(); index++){
             cout << lineNumbers.at(index) << endl;
         }
     }   
     else
         cout << "your search for the phrase: \"" << searchRequest << "\" in the document \""
-        << fileName << "\" has failed.  o͡͡͡╮༼ • ʖ̯ • ༽╭o͡͡͡  please try again.";
+        << fileName << "\" has failed.  o͡͡͡╮༼ • ʖ̯ • ༽╭o͡͡͡  please try again." << endl;
     return;
 }
 
@@ -49,14 +42,21 @@ int             searchLine(string haystack, string needle){
     int         needleLen = needle.length();
     int         foundStatus = 0;
     
-    while (haystack[search] != needle[match])
+    while (search < haystackLen && haystack[search] != needle[match])
         search++;
-    while (match + search < haystackLen && match < needleLen && haystack[match + search] == needle[match])
+    while (match + search <= haystackLen && match <= needleLen && haystack[match + search] == needle[match])
         match++;
-    if (needleLen == match || haystackLen == match)
+    if (match == needleLen)
         foundStatus = 1;
     return foundStatus;
 }
+
+/*
+    Unfortunately, this menthod ^^^ is shitty and incomplete because
+    1. it cannot find the word if there is a partial match and then a full match later in the string
+    2. it cannot find the phrase if it is larger than the line
+    you're going to have to re write this whole thing
+*/
 
 string          getUserInput(string userMessage){
     
@@ -72,18 +72,22 @@ int             main(){
     
     string      currentLine;
     ifstream    inputFile;
-    string      fileRequest = getUserInput("enter the name of the file you wish to search");
-    string      searchRequest = getUserInput("enter the word or phrase you wish to search for");
+    //string      fileRequest = getUserInput("enter the name of the file you wish to search");
+    //string      searchRequest = getUserInput("enter the word or phrase you wish to search for");
+    string      fileRequest = "janeEyre.txt";
+    string      searchRequest = "Jane";
     vector<int> matchPageNums;
     int         lineNumber = 1;
 
     if (fileRequest != "void")
         inputFile.open(fileRequest);
     if (inputFile){
-        while(getline(inputFile, fileRequest)){
-            getline(inputFile, currentLine);
-            if (searchLine(currentLine, searchRequest))
+        matchPageNums.push_back(0);
+        while(getline(inputFile, currentLine)){
+            if (searchLine(currentLine, searchRequest)){
                 matchPageNums.push_back(lineNumber);
+                matchPageNums[0] = 1;
+            }
             lineNumber++;
         }
         printInfo(matchPageNums, fileRequest, searchRequest);
