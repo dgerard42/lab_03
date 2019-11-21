@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/08 20:10:35 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/19 15:59:38 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/20 23:21:57 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,6 @@ void            printInfo(vector<int> lineNumbers, string fileName, string searc
     return;
 }
 
-int             searchLine(string haystack, string needle){
-
-    int         match = 0;
-    int         search = 0;
-    int         haystackLen = haystack.length();
-    int         needleLen = needle.length();
-    int         foundStatus = 0;
-    
-    while (search < haystackLen && haystack[search] != needle[match])
-        search++;
-    while (match + search <= haystackLen && match <= needleLen && haystack[match + search] == needle[match])
-        match++;
-    if (match == needleLen)
-        foundStatus = 1;
-    return foundStatus;
-}
-
-/*
-    Unfortunately, this menthod ^^^ is shitty and incomplete because
-    1. it cannot find the word if there is a partial match and then a full match later in the string
-    2. it cannot find the phrase if it is larger than the line
-    you're going to have to re write this whole thing
-*/
-
 string          getUserInput(string userMessage){
     
     string      userInput;
@@ -72,10 +48,8 @@ int             main(){
     
     string      currentLine;
     ifstream    inputFile;
-    //string      fileRequest = getUserInput("enter the name of the file you wish to search");
-    //string      searchRequest = getUserInput("enter the word or phrase you wish to search for");
-    string      fileRequest = "janeEyre.txt";
-    string      searchRequest = "Jane";
+    string      fileRequest = getUserInput("enter the name of the file you wish to search");
+    string      searchRequest = getUserInput("enter the word or phrase you wish to search for");
     vector<int> matchPageNums;
     int         lineNumber = 1;
 
@@ -84,7 +58,7 @@ int             main(){
     if (inputFile){
         matchPageNums.push_back(0);
         while(getline(inputFile, currentLine)){
-            if (searchLine(currentLine, searchRequest)){
+            if (currentLine.find(searchRequest) != std::string::npos){
                 matchPageNums.push_back(lineNumber);
                 matchPageNums[0] = 1;
             }
