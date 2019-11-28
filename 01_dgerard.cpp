@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/10/29 11:58:39 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/10/31 12:01:27 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/26 17:32:10 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ unsigned int        reverse(unsigned int number){
         
     if (number == 0)
         return 0;
-    else {
+    else
         return ((number % BASE) * (pow(BASE, (getPlace(number) - 1))) + reverse(number / BASE));
-    }
 }
 
 int                 main(){
