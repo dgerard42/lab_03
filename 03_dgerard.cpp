@@ -6,7 +6,7 @@
 /*   By: dany <github.com/dgerard42>               |;;,      "-._             */
 /*                                                 ';;;,,    ",_ "=-._        */
 /*   Created: 2019/11/03 22:21:34 by dany            ':;;;;,,..-``"-._`"-.    */
-/*   Updated: 2019/11/08 18:34:52 by dany              _/_/`           `'"`   */
+/*   Updated: 2019/11/29 21:49:58 by dany              _/_/`           `'"`   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@
 using namespace std;
 
 const int   MAX_NAMES = 20;
-const int   
+
+/*
+    I used http://www.algolist.net/Algorithms/Sorting/Quicksort, Kieran, and
+    Toaster as references for the quicksort in this code.
+*/
 
 void        printNames(string names[], int numNames){
 
     int     nameIndex = 0;
 
-    while (nameIndex < numNames - 1){
+    while (nameIndex < numNames){
         cout << names[nameIndex];
-        if (nameIndex != numNames - 2)
+        if (nameIndex != numNames - 1)
             cout << ", ";
         nameIndex++;
     }
@@ -34,24 +38,24 @@ void        printNames(string names[], int numNames){
 
 void        quickSort(string array[], int leftWall, int rightWall){
 
-      int   left = leftWall;
-      int   right = rightWall;
-      int   temp;
-      int   pivot = array[(left + right) / 2];
+      int       left = leftWall;
+      int       right = rightWall;
+      string    temp;
+      char      pivot = tolower(array[(left + right) / 2][0]);
 
       if (left >= right)
         return;
       while (left <= right) {
-            while (array[left] < pivot)
-                  left++;
-            while (array[right] > pivot)
-                  right--;
+            while ((left < rightWall) && (!isalpha(array[left][0])) || ((isalpha(array[left][0])) && tolower(array[left][0]) < pivot))
+                left++;
+            while (isalpha(array[right][0]) && (tolower(array[right][0]) > pivot))
+                right--;
             if (left <= right) {
-                  temp = array[left];
-                  array[left] = array[right];
-                  array[right] = temp;
-                  left++;
-                  right--;
+                temp = array[left];
+                array[left] = array[right];
+                array[right] = temp;
+                left++;
+                right--;
             }
       }
       if (leftWall < right)
@@ -72,7 +76,7 @@ int         getNames(string names[]){
         cout << endl;
         numNames++;
     }
-    return numNames;
+    return numNames - 1;
 }
 
 int         main(){
@@ -81,7 +85,9 @@ int         main(){
     string  names[MAX_NAMES];
 
     numNames = getNames(names);
-    sort();
+    names[numNames] = "";
+    names[numNames + 1] = "";
+    quickSort(names, 0, numNames - 1);
     printNames(names, numNames);
     return 0;
 }
